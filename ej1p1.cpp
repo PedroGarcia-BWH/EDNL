@@ -57,6 +57,8 @@ int profundidadNodo_rec(Abin<T> A, typename Abin<T>::nodo i, typename Abin<T>::n
     }
 }
 
+carlos es gay
+
 
 using namespace std;
 typedef char tElto;
