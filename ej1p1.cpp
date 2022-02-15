@@ -56,8 +56,39 @@ int profundidadNodo_rec(Abin<T> A, typename Abin<T>::nodo i, typename Abin<T>::n
         return(ramaA > ramaB) ? ramaA : ramaB;
     }
 }
+template <typename T>
+int desequilibrio (Abin<T> A){
+    return desequilibrio_rec(A,A.raiz());
+}
 
-carlos es gay
+template<typename T>
+int desequilibrio_rec(Abin<T> A, typename Abin<T>::nodo n){
+    int ramaA = 0, ramaB = 0;
+    if (n == Abin<T>::NODO_NULO){
+        return 0;
+    }else{
+        ramaA = alturaArbol()
+    }
+
+}
+
+
+template <typename T>
+bool pseudocompleto (Abin<T> A){
+    return pseudocompleto_rec(A, A.raiz());
+}
+template <typename T>
+bool pseudocompleto_rec(Abin<T> A, typename Abin<T>::nodo n){
+    if(n == Abin<T>::NODO_NULO){
+        typename Abin<T>::nodo padre = padre(n);
+        if((A.hijoIzqdo(padre) == Abin<T>::NODO_NULO && A.hijoDrcho(oadre) == Abin<T>::NODO_NULO) || (A.hijoIzqdo(padre) != Abin<T>::NODO_NULO && A.hijoDrcho(oadre) != Abin<T>::NODO_NULO))
+        {
+            return true;
+        }
+    }else{
+        return pseudocompleto_rec(A,A.hijoIzqdo(n)) || pseudocompleto_rec(A,A.hijoDrcho(n));
+    }
+}
 
 
 using namespace std;
