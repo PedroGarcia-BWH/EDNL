@@ -2,7 +2,7 @@
 #include <fstream> 
 #include "arbol.h"
 #include "abin_E-S.h"
-
+hola
 template <typename T>
 int nNodos(Abin<T> arbol){
     return nNodos_Rec(arbol,arbol.raiz());
