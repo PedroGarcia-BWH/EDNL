@@ -39,35 +39,31 @@ int alturaArbol_rec(Abin<T> arbol, typename Abin<T>::nodo n){
 //Precondicion: el nodo debe estar en el arbol
 template <typename T>
 int profundidadNodo(Abin<T> A, typename Abin<T>::nodo n){
-    return profundidadNodo_rec(A,A.raiz(),n);
+    return profundidadNodo_rec(A,n);
 }
 template <typename T>
-int profundidadNodo_rec(Abin<T> A, typename Abin<T>::nodo i, typename Abin<T>::nodo n)
+int profundidadNodo_rec(Abin<T> A,  typename Abin<T>::nodo n)
 {
-    int ramaA = 0, ramaB=0;
-    if(i == Abin<T>::NODO_NULO){
-        return -500;
-    }else if(i== n){
+    if(n == Abin<T>::NODO_NULO){ //pewguntar porque no funciona si ponemos que n sea igual que nodo raiz
         return -1;
     }else{
-        ramaA= 1+ alturaArbol_rec(A,A.hijoIzqdo(n));
-        ramaB= 1 + alturaArbol_rec(A,A.hijoDrcho(n));
-
-        return(ramaA > ramaB) ? ramaA : ramaB;
+        return 1 + profundidadNodo_rec(A,A.padre(n));
     }
 }
 template <typename T>
 int desequilibrio (Abin<T> A){
-    return desequilibrio_rec(A,A.raiz());
+    return desequilibrio_rec(A,A.raiz(), int maximo=0);
 }
 
 template<typename T>
-int desequilibrio_rec(Abin<T> A, typename Abin<T>::nodo n){
-    int ramaA = 0, ramaB = 0;
+int desequilibrio_rec(Abin<T> A, typename Abin<T>::nodo n, int &maximo){
     if (n == Abin<T>::NODO_NULO){
         return 0;
     }else{
-        ramaA = alturaArbol()
+        int alturaN = altura_rec(A,n);
+        if(alturaN > maximo) maximo = alturaN;
+
+        return 
     }
 
 }
