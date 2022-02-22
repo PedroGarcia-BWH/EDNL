@@ -52,11 +52,11 @@ int profundidadNodo_rec(Abin<T> A,  typename Abin<T>::nodo n)
 }
 template <typename T>
 int desequilibrio (Abin<T> A){
-    return desequilibrio_rec(A,A.raiz(), int maximo=0);
+    return desequilibrio_rec(A,A.raiz(),0);
 }
 
-template<typename T>
-int desequilibrio_rec(Abin<T> A, typename Abin<T>::nodo n, int &maximo){
+//template<typename T>
+/*int desequilibrio_rec(Abin<T> A, typename Abin<T>::nodo n, int &maximo){
     if (n == Abin<T>::NODO_NULO){
         return 0;
     }else{
@@ -66,23 +66,27 @@ int desequilibrio_rec(Abin<T> A, typename Abin<T>::nodo n, int &maximo){
         return 
     }
 
-}
+}*/
 
 
 template <typename T>
 bool pseudocompleto (Abin<T> A){
-    return pseudocompleto_rec(A, A.raiz());
+    return pseudocompleto_rec(A, A.raiz(), alturaArbol(A),0);
 }
 template <typename T>
-bool pseudocompleto_rec(Abin<T> A, typename Abin<T>::nodo n){
+bool pseudocompleto_rec(Abin<T> A, typename Abin<T>::nodo n, int alturaNivel, int alturaActual){
     if(n == Abin<T>::NODO_NULO){
-        typename Abin<T>::nodo padre = padre(n);
-        if((A.hijoIzqdo(padre) == Abin<T>::NODO_NULO && A.hijoDrcho(oadre) == Abin<T>::NODO_NULO) || (A.hijoIzqdo(padre) != Abin<T>::NODO_NULO && A.hijoDrcho(oadre) != Abin<T>::NODO_NULO))
+        return true;
+       
+    }else if(alturaNivel - 1  == alturaActual){
+        if((A.hijoIzqdo(n) == Abin<T>::NODO_NULO && A.hijoDrcho(n) == Abin<T>::NODO_NULO) || (A.hijoIzqdo(n) != Abin<T>::NODO_NULO && A.hijoDrcho(n) != Abin<T>::NODO_NULO))
         {
             return true;
+        }else{
+            return false;
         }
     }else{
-        return pseudocompleto_rec(A,A.hijoIzqdo(n)) || pseudocompleto_rec(A,A.hijoDrcho(n));
+        return pseudocompleto_rec(A,A.hijoIzqdo(n),alturaNivel,alturaActual+1) && pseudocompleto_rec(A,A.hijoDrcho(n),alturaNivel,alturaActual+1);
     }
 }
 
@@ -108,6 +112,8 @@ int main (){
  //cout << "Nnodos : " << nNodos(A)<< endl;
 
 //cout << "Altura: " <<alturaArbol(A);
-cout<<"Profundidad: " << profundidadNodo(A, A.raiz());
+//cout<<"Profundidad: " << profundidadNodo(A, A.raiz());
+
+cout << "Pseudocompleto " <<  pseudocompleto(A);
 } 
 
