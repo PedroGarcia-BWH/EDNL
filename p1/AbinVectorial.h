@@ -22,6 +22,8 @@ template <typename T> class Abin {
         nodo hijoDrcho(nodo n) const;
         Abin(const Abin<T>& A); // ctor. de copia
         Abin<T>& operator =(const Abin<T>& A); // asig. de árboles
+        int altura();
+		int profundidad(nodo n);
         ~Abin(); // destructor
     private:
         struct celda {
@@ -31,6 +33,7 @@ template <typename T> class Abin {
         celda *nodos; // vector de nodos
         size_t maxNodos; // tamaño del vector
         size_t numNodos; // número de nodos del árbol
+        int altura_rec(nodo n);
         };
 
 /* Definición del nodo nulo */
