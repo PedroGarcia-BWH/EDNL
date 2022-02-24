@@ -1,4 +1,4 @@
-/*#ifndef _ARBOL_H_
+#ifndef _ARBOL_H_
 #define _ARBOL_H_
 #include <cassert>
 
@@ -19,6 +19,8 @@ template <typename T> class Abin
 		bool arbolVacio() const;
 		const T& elemento(nodo n) const;
 		T& elemento(nodo n);
+		int altura();
+		int profundidad(nodo n);
 		nodo raiz() const;
 		nodo padre(nodo n) const;
 		nodo hijoIzqdo(nodo n) const;
@@ -36,6 +38,7 @@ template <typename T> class Abin
 		nodo r; //nodo raiz
 		void destructor(nodo& n);
 		nodo copiar(nodo n);
+		int altura_rec(nodo n);
 };
 
 
@@ -184,6 +187,34 @@ typename Abin<T>::nodo Abin<T>::copiar(nodo n)
 	
 	return salida;
 }
+//preguntar si hay que pasarle el arbol en este caso (no hace falta no lo necesitamos)
+template <typename T>
+int Abin<T>::altura_rec(nodo n){
+	int ramaA = 0; int ramaB= 0;
+	if(n == NODO_NULO)
+	{
+		return -1;
+	}else{
+		ramaA = 1 + altura_rec(n->hizq);
+		ramaB = 1 + altura_rec(n->hder);
+
+		return (ramaA > ramaB) ? ramaA : ramaB;
+	}
+}
+
+template <typename T>
+int Abin<T>::altura(){
+	return altura_rec(r);
+}
+
+template <typename T>
+int Abin<T>::profundidad(nodo n){
+	int profundidad = -1;
+	while (n != NODO_NULO){
+		n = n->padre;
+		profundidad++;
+	}
+}
 
 template <typename T>
 void Abin<T>::destructor(nodo& n)
@@ -204,8 +235,7 @@ Abin<T>::~Abin()//destructor
 }
 
 #endif
-
-*/
+/*
 
 #ifndef _ARBOL_H_
 #define _ARBOL_H_
@@ -446,3 +476,4 @@ Abin<T>::~Abin()//destructor
 }
 
 #endif
+*/
