@@ -33,15 +33,31 @@ Abin<T> reflejado(const Abin<T>& B){
 
 template <typename T>
 void reflejadoRec(typename Abin<T>::nodo& nodoB, typename Abin<T>::nodo& nodoBr, const Abin<T>& B, Abin<T>& Br){
-    if(nodoB != Abin<T>::NODO_NULO && B.hijoDrcho(nodoB) != Abin<T>::NODO_NULO && B.hijoIzqdo(nodoB) != Abin<T>::NODO_NULO){
+    if(B.hijoDrcho(nodoB) != Abin<T>::NODO_NULO && B.hijoIzqdo(nodoB) != Abin<T>::NODO_NULO){
         Br.insertarHijoIzqdo(nodoBr, B.elemento(B.hijoDrcho(nodoB)));
         Br.insertarHijoDrcho(nodoBr, B.elemento(B.hijoIzqdo(nodoB)));
 
         reflejadoRec(B.hijoDrcho(nodoB),Br.hijoIzqdo(nodoBr),B,Br);
         reflejadoRec(B.hijoIzqdo(nodoB),Br.hijoDrcho(nodoBr),B,Br);
-    }else if()
+
+    }else if(B.hijoDrcho(nodoB) != Abin<T>::NODO_NULO){
+        Br.insertarHijoIzqdo(nodoBr, B.elemento(B.hijoDrcho(nodoB)));
+        reflejadoRec(B.hijoDrcho(nodoB),Br.hijoIzqdo(nodoBr),B,Br);
+
+    }else if(B.hijoIzqdo(nodoB) != Abin<T>::NODO_NULO){
+        Br.insertarHijoDrcho(nodoBr, B.elemento(B.hijoIzqdo(nodoB)));
+        reflejadoRec(B.hijoIzqdo(nodoB),Br.hijoDrcho(nodoBr),B,Br);
+    }
 }
 
+typedef struct{
+    float operando;
+    char operador;
+}aritmetica;
+
+aritmetica calculoAritmetico(const Abin<aritmetica>& A){
+    
+}
 
 using namespace std;
 typedef char tElto;
