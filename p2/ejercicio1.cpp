@@ -74,6 +74,30 @@ float calculoRec(nodo n, Abin<datos> A){
     }
 }
 */
+
+typedef struct{
+    char op;
+    float dato;
+}datos;
+
+float calculo(Abin<datos> A){
+    return calculoRec(A.raiz(),A);
+}
+
+float calculoRec(typename Abin<datos>::nodo n, Abin<datos> A){
+    if(A.hijoIzqdo(n) == Abin<datos>::NODO_NULO && A.hijoDrcho(n) == Abin<datos>::NODO_NULO){
+        return A.elemento(n).dato;
+    }else{
+        switch(A.elemento(n).op){
+            case '+': return calculoRec(A.hijoIzqdo(n),A) + calculoRec(A.hijoDrcho(n),A);
+            case '-': return calculoRec(A.hijoIzqdo(n),A) - calculoRec(A.hijoDrcho(n),A);
+            case '/': return calculoRec(A.hijoIzqdo(n),A) / calculoRec(A.hijoDrcho(n),A);// suponemos que esta bien y no existe el /0
+            case '*': return calculoRec(A.hijoIzqdo(n),A) * calculoRec(A.hijoDrcho(n),A);
+        }
+    }
+}
+
+
 using namespace std;
 typedef char tElto;
 const tElto fin = '#'; // Fin de lectura.
