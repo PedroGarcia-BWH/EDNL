@@ -61,7 +61,7 @@ int desequilibrio(Abin A){
     if(a.ARBOLVACIO()){
         return -1; //como no tiene sentido que un arbol vacio tenga desequilibrio le pongo -1
     }else{
-        return std::abs(altura(A.hijoizqz(A.raiz()))- altura(A.hijoder(raiz())))00
+        return std::abs(altura(A.hijoizqz(A.raiz()))- altura(A.hijoder(raiz())))
     }
 }
 
