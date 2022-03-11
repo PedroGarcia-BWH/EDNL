@@ -16,7 +16,7 @@ int nodosVerdesRec(typename Abin<T>::nodo n, Abin<T> A){
     }else{
         typename Abin<T>::nodo hizq = A.hijoIzqdo(n);
         typename Abin<T>::nodo hder = A.hijoDrcho(n);
-        if(( hizq != Abin<T>::NODO_NULO && hder != Abin<T>::NODO_NULO) && 
+        if(( hizq != Abin<T>::NODO_NULO && hder != Abin<T>::NODO_NULO) &&  //se puede añadir una condcion en el que cuente en vez de hacer el if
         ((A.hijoIzqdo(hizq) != Abin<T>::NODO_NULO && A.hijoDrcho(hizq) != Abin<T>::NODO_NULO && A.hijoIzqdo(hder) != Abin<T>::NODO_NULO && A.hijoDrcho(hder) == Abin<T>::NODO_NULO) ||
         (A.hijoIzqdo(hizq) != Abin<T>::NODO_NULO && A.hijoDrcho(hizq) != Abin<T>::NODO_NULO && A.hijoIzqdo(hder) == Abin<T>::NODO_NULO && A.hijoDrcho(hder) != Abin<T>::NODO_NULO) ||
         (A.hijoIzqdo(hizq) != Abin<T>::NODO_NULO && A.hijoDrcho(hizq) == Abin<T>::NODO_NULO && A.hijoIzqdo(hder) != Abin<T>::NODO_NULO && A.hijoDrcho(hder) != Abin<T>::NODO_NULO) ||
