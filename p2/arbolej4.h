@@ -45,7 +45,8 @@ void Abin<T>::insertarRaiz(const T& elem){
 template<typename T>
 void Abin<T>::insertarHijoIzqdo(nodo n, const T& e){
     nodos[n-pow(2,alturaMax(n)-1)] = e;
-}
+} 
+
 template <typename T>
 Abin<T>::nodo Abin<T>::padre(nodo n){
     if(n < maxNodos/2) return n+ pow(2,alturaMax(n));
