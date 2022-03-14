@@ -30,7 +30,7 @@ int nodosVerdesRec(typename Abin<T>::nodo n, const Abin<T>& A){
 }
 
 
-int nodosVerdes2(const Abin<std::string>& A){
+/*int nodosVerdes2(const Abin<std::string>& A){
     return nodosVerdesRec2(A.raiz(),A);
 }
 
@@ -43,7 +43,8 @@ int nodosVerdesRec2(typename Abin<std::string>::nodo n, const Abin<std::string>&
     }else{
         return nodosVerdesRec2(A.hijoIzqdo(n),A) + nodosVerdesRec2(A.hijoDrcho(n),A);
     }
-}
+}*/
+
 template <typename T>
 Abin<T> poda( const typename Abin<T>::nodo& n, const Abin<T>& A){
     Abin<T> B;
@@ -53,9 +54,10 @@ Abin<T> poda( const typename Abin<T>::nodo& n, const Abin<T>& A){
     }
     return B;
 }
-
+//suponemos que no metemos el nodo en la poda asi que eliminamos a partir de ese nodo //HACER ESTE EJERCICIO HACIENDO LA PODA AL MISMO ARBOL
+//Preguntar a kevin si nos pide q devolvamos al mismo nodo si creamos un arbol auxiliar y luego igualos A= B;
 template <typename T>
-void podaRec(typename Abin<T>::nodo& nA, typename Abin<T>::nodo& nB, const typename  Abin<T>::nodo& n, const Abin<T>& A, Abin<T>& B){
+void podaRec(typename Abin<T>::nodo nA, typename Abin<T>::nodo nB,  const typename  Abin<T>::nodo& n, const Abin<T>& A, Abin<T>& B){
     if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
         if(nA != n){
             B.insertarHijoIzqdo(nB, A.elemento(A.hijoIzqdo(nA)));
@@ -74,7 +76,7 @@ template <typename T>
 Abin<T> multiplica(const Abin<T>& A, const T& num){
     Abin<T> B;
     if(!A.arbolVacio()){
-        B.insertarRaiz(A.elemento(A.raiz) * num);
+        B.insertarRaiz(A.elemento(A.raiz()) * num );
         multiplicaRec(A.raiz(),B.raiz(),num,A,B);
     }
     return B; 
@@ -82,13 +84,13 @@ Abin<T> multiplica(const Abin<T>& A, const T& num){
 
 
 template<typename T>
-void multiplicaRec(typename Abin<T>::nodo nA, typename Abin<T>::nodo nB, const T& num, const Abin<T>& A, const Abin<T>& B){
+void multiplicaRec(typename Abin<T>::nodo nA, typename Abin<T>::nodo nB, const T& num, const Abin<T>& A,  Abin<T>& B){
     if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
-        B.insertarHijoIzqdo(nB, A.elemento(A.hijoIzqdo(nA) * num));
+        B.insertarHijoIzqdo(nB, A.elemento(A.hijoIzqdo(nA)) * num);
         multiplicaRec(A.hijoIzqdo(nA),A.hijoIzqdo(nB),num,A,B);
     }
     if(A.hijoDrcho(nA) != Abin<T>::NODO_NULO){
-        B.insertarHijoDrcho(nB, A.elemento(A.hijoDrcho(nA) * num));
+        B.insertarHijoDrcho(nB, A.elemento(A.hijoDrcho(nA)) * num);
         multiplicaRec(A.hijoDrcho(nA),A.hijoDrcho(nB),num,A,B);
     }
 }
@@ -96,7 +98,7 @@ void multiplicaRec(typename Abin<T>::nodo nA, typename Abin<T>::nodo nB, const T
 template <typename T>
 int sucesores(typename Abin<T>::nodo n, Abin<T> A){
     if(n == Abin<T>::NODO_NULO){
-        return 0;
+        return -1;
     }else{
         return 1 + sucesores(A.hijoIzqdo(n),A) + sucesores(A.hijoDrcho(n),A);
     }
@@ -122,9 +124,9 @@ int masSucesoresRec(typename Abin<T>::nodo n, Abin<T> A){
     if(n == Abin<T>::NODO_NULO){
         return 0;
     }else if(sucesores(n,A) > antecesores(n,A)){
-        return 1 + masSucecosresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A);
+        return 1 + masSucesoresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A);
     }else{
-        return masSucecosresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A);
+        return masSucesoresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A);
     }
 
 }
@@ -149,7 +151,18 @@ int main (){
  cout << "\n*** Mostrar árbol binario B ***\n";
  imprimirAbin(B); // En std::cout
 
- cout << "Nodos verdes: " << nodosVerdes(A);
+ //cout << "Nodos verdes: " << nodosVerdes(A);
+ /*Abin<tElto> C = multiplica(A,10);
+ cout << "Multiplica" <<endl;
+ imprimirAbin(C); // En std::cout*/
 
+//cout<<masSucesores(A);
+
+    cout << "Nodos verdes: " << nodosVerdes(A);
+ Abin<tElto> C = poda(A.hijoIzqdo(A.raiz()),A);
+ cout << "Multiplica" <<endl;
+ imprimirAbin(C); // En std::cout
+
+ 
 } 
 
