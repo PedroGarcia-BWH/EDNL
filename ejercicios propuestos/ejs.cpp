@@ -98,7 +98,7 @@ void multiplicaRec(typename Abin<T>::nodo nA, typename Abin<T>::nodo nB, const T
 template <typename T>
 int sucesores(typename Abin<T>::nodo n, Abin<T> A){
     if(n == Abin<T>::NODO_NULO){
-        return -1;
+        return 0;
     }else{
         return 1 + sucesores(A.hijoIzqdo(n),A) + sucesores(A.hijoDrcho(n),A);
     }
