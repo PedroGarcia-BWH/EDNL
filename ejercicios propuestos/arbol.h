@@ -89,7 +89,7 @@ template <typename T>
 inline void Abin<T>::eliminarHijoDrcho(nodo n)
 {
 	assert(n != NODO_NULO);
-	assert(n->der != NODO_NULO);
+	assert(n->hder != NODO_NULO);
 	//comprobamos que el nodo que vamos a eliminar sea una hoja
 	assert(n->hder->hizq == NODO_NULO and n->hder->hder == NODO_NULO);
 
@@ -214,6 +214,7 @@ int Abin<T>::profundidad(nodo n){
 		n = n->padre;
 		profundidad++;
 	}
+	return profundidad;
 }
 
 template <typename T>

@@ -71,6 +71,28 @@ void podaRec(typename Abin<T>::nodo nA, typename Abin<T>::nodo nB,  const typena
         }
     }
 }
+
+template <typename T>
+Abin<T> poda(const typename Abin<T>::nodo& n, Abin<T>& A){
+    podaRec(n,n,A); //no hace falta recorrer el arbol ya que tenemos el nodo, si tuvieramos el elemento si tendriamos que encontrar el nodo que contiene ese elemento
+    return A;
+}
+//suponemos que n no puede ser podado
+template <typename T>
+void podaRec(const typename Abin<T>::nodo& nActual,  const typename Abin<T>::nodo& n, Abin<T>& A){ //pasamos el nodo como referencia ya que si es por valor la direccion de memoria es diferente y no son iguales
+    if(A.hijoIzqdo(nActual) == Abin<T>::NODO_NULO && A.hijoDrcho(nActual) == Abin<T>::NODO_NULO && nActual != n){ //si por casualidad n es nodo hoja no lo podamos
+        if(nActual == A.hijoIzqdo(A.padre(nActual))) A.eliminarHijoIzqdo(A.padre(nActual));
+        else A.eliminarHijoDrcho(A.padre(nActual));
+    }else{
+        podaRec(A.hijoIzqdo(nActual),n,A);
+        podaRec(A.hijoDrcho(nActual),n,A);
+
+        if(nActual != n){ //cuando lleguemos a la primera llamada para que no pode n que sea distino al nodoActual, aunque sepamos que seria la primera llamada 
+            if(nActual == A.hijoIzqdo(A.padre(nActual))) A.eliminarHijoIzqdo(A.padre(nActual));
+            else A.eliminarHijoDrcho(A.padre(nActual));
+        }
+    }
+}
  
 template <typename T>
 Abin<T> multiplica(const Abin<T>& A, const T& num){
@@ -123,12 +145,55 @@ template <typename T>
 int masSucesoresRec(typename Abin<T>::nodo n, Abin<T> A){
     if(n == Abin<T>::NODO_NULO){
         return 0;
-    }else if(sucesores(n,A) > antecesores(n,A)){
-        return 1 + masSucesoresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A);
+    }else if(sucesores(n,A)-1 > antecesores(n,A)){
+        return 1 + masSucesoresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A); // ya que metemos el nodo como sucesor y no puede ser, en la profundidad al poner -1 ya hemos quitado ese nodo
     }else{
         return masSucesoresRec(A.hijoIzqdo(n),A) + masSucesoresRec(A.hijoDrcho(n),A);
     }
 
+}
+
+//reflejar nodo que tiene solo 1 hijo
+template <typename T>
+Abin<T> ArbolReflejado(const Abin<T>& A){
+    Abin<T> B;
+    if(!A.arbolVacio()){
+        B.insertarRaiz(A.elemento(A.raiz()));
+        ArbolReflejadoRec(A.raiz(),B.raiz(),B,A);
+    }
+
+    return B;
+}
+
+template <typename T>
+void ArbolReflejadoRec(typename Abin<T>::nodo nA , typename Abin<T>::nodo nB, Abin<T> B, const Abin<T>& A){
+    
+    if((A.hijoIzqdo(nA) != Abin<T>::NODO_NULO && A.hijoDrcho(nA) == Abin<T>::NODO_NULO) || 
+    (A.hijoIzqdo(nA) == Abin<T>::NODO_NULO && A.hijoDrcho(nA) != Abin<T>::NODO_NULO))
+    {
+        if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
+            B.insertarHijoDrcho(nB,A.elemento(A.hijoIzqdo(nA)));
+            
+            ArbolReflejadoRec(A.hijoIzqdo(nA),B.hijoDrcho(nB),B,A);
+        }else{
+            B.insertarHijoIzqdo(nB,A.elemento(A.hijoDrcho(nA)));
+            
+            ArbolReflejadoRec(A.hijoDrcho(nA),B.hijoIzqdo(nB),B,A);
+        }
+    }else
+    {
+        if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
+            B.insertarHijoIzqdo(nB,A.elemento(A.hijoIzqdo(nA)));
+            
+            ArbolReflejadoRec(A.hijoIzqdo(nA),B.hijoIzqdo(nB),B,A);
+        }
+        if(A.hijoDrcho(nA) != Abin<T>::NODO_NULO){
+             B.insertarHijoDrcho(nB,A.elemento(A.hijoDrcho(nA)));
+            
+            ArbolReflejadoRec(A.hijoDrcho(nA),B.hijoDrcho(nB),B,A);
+        }
+    }
+    
 }
 
 
@@ -158,11 +223,14 @@ int main (){
 
 //cout<<masSucesores(A);
 
-    cout << "Nodos verdes: " << nodosVerdes(A);
+    /*cout << "Nodos verdes: " << nodosVerdes(A);
  Abin<tElto> C = poda(A.hijoIzqdo(A.raiz()),A);
  cout << "Multiplica" <<endl;
- imprimirAbin(C); // En std::cout
+ imprimirAbin(C); // En std::cout*/
 
+A = poda(A.hijoIzqdo(A.raiz()),A);
+
+ imprimirAbin(A); // En std::cout
  
 } 
 
