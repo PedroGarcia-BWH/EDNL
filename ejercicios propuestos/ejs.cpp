@@ -167,33 +167,84 @@ Abin<T> ArbolReflejado(const Abin<T>& A){
 
 template <typename T>
 void ArbolReflejadoRec(typename Abin<T>::nodo nA , typename Abin<T>::nodo nB, Abin<T> B, const Abin<T>& A){
-    
-    if((A.hijoIzqdo(nA) != Abin<T>::NODO_NULO && A.hijoDrcho(nA) == Abin<T>::NODO_NULO) || 
-    (A.hijoIzqdo(nA) == Abin<T>::NODO_NULO && A.hijoDrcho(nA) != Abin<T>::NODO_NULO))
-    {
-        if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
-            B.insertarHijoDrcho(nB,A.elemento(A.hijoIzqdo(nA)));
-            
-            ArbolReflejadoRec(A.hijoIzqdo(nA),B.hijoDrcho(nB),B,A);
-        }else{
-            B.insertarHijoIzqdo(nB,A.elemento(A.hijoDrcho(nA)));
-            
-            ArbolReflejadoRec(A.hijoDrcho(nA),B.hijoIzqdo(nB),B,A);
-        }
-    }else
-    {
-        if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
-            B.insertarHijoIzqdo(nB,A.elemento(A.hijoIzqdo(nA)));
-            
-            ArbolReflejadoRec(A.hijoIzqdo(nA),B.hijoIzqdo(nB),B,A);
-        }
-        if(A.hijoDrcho(nA) != Abin<T>::NODO_NULO){
-             B.insertarHijoDrcho(nB,A.elemento(A.hijoDrcho(nA)));
-            
-            ArbolReflejadoRec(A.hijoDrcho(nA),B.hijoDrcho(nB),B,A);
+    if(nA != Abin<T>::NODO_NULO){
+        if((A.hijoIzqdo(nA) != Abin<T>::NODO_NULO && A.hijoDrcho(nA) == Abin<T>::NODO_NULO) || 
+        (A.hijoIzqdo(nA) == Abin<T>::NODO_NULO && A.hijoDrcho(nA) != Abin<T>::NODO_NULO))
+        {
+            if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
+                B.insertarHijoDrcho(nB,A.elemento(A.hijoIzqdo(nA)));
+                
+                ArbolReflejadoRec(A.hijoIzqdo(nA),B.hijoDrcho(nB),B,A);
+            }else{
+                B.insertarHijoIzqdo(nB,A.elemento(A.hijoDrcho(nA)));
+                
+                ArbolReflejadoRec(A.hijoDrcho(nA),B.hijoIzqdo(nB),B,A);
+            }
+        }else
+        {
+            if(A.hijoIzqdo(nA) != Abin<T>::NODO_NULO){
+                B.insertarHijoIzqdo(nB,A.elemento(A.hijoIzqdo(nA)));
+                
+                ArbolReflejadoRec(A.hijoIzqdo(nA),B.hijoIzqdo(nB),B,A);
+            }
+            if(A.hijoDrcho(nA) != Abin<T>::NODO_NULO){
+                B.insertarHijoDrcho(nB,A.elemento(A.hijoDrcho(nA)));
+                
+                ArbolReflejadoRec(A.hijoDrcho(nA),B.hijoDrcho(nB),B,A);
+            }
         }
     }
-    
+}
+
+//Poda desde un elemento del arbol
+template <typename T>
+void poda(T elem, Abin<T>& A){
+    podaRec(A.raiz(),elem,A);
+}
+
+template <typename T>
+void podaRec(typename Abin<T>::nodo n, T elem, Abin<T>& A){
+
+    if(n != Abin<T>::NODO_NULO)
+    {
+        if(A.elemento(n) == elem)
+        {
+            podaNodos(A.hijoIzqdo(n),A); //preguntar a kevin si es mejor tener dos funciones y asi no llamamos al nodo o comprobarlo en la funcion de podaNodos pa q no pode ese nodo
+            podaNodos(A.hijoDrcho(n),A);
+        }else{
+            podaRec(A.hijoIzqdo(n),elem,A);
+            podaRec(A.hijoDrcho(n),elem,A);
+        }
+    }
+}
+
+//como suponemos que no debemos podar el nodo que nos pide entonces si n(nodo por el cual se pueda podar) es raiz no pasaria nada, si tuvieramos que eliminar incluyendo el nodo deberiamos comprobar q no es raiz 
+template <typename T>
+void podaNodos(typename Abin<T>::nodo n, Abin<T>& A){
+    if(n != Abin<T>::NODO_NULO)
+    {
+        podaNodos(A.hijoIzqdo(n),A);
+        podaNodos(A.hijoDrcho(n),A);
+
+        if(A.hijoIzqdo(A.padre(n)) == n){
+            A.eliminarHijoIzqdo(A.padre(n));
+        }else{
+            A.eliminarHijoDrcho(A.padre(n));
+        }
+    }
+}
+template <typename T>
+int alturaRec(typename Abin<T>::nodo n, const Abin<T>& A){
+    if(n == Abin<T>::NODO_NULO){
+        return -1;
+    }else{
+        return 1 + std::max(alturaRec(A.hijoIzqdo(n),A),alturaRec(A.hijoDrcho(n),A));
+    }
+}
+
+template <typename T>
+int altura(const Abin<T>& A){
+    return alturaRec(A.raiz(),A);
 }
 
 
@@ -228,8 +279,12 @@ int main (){
  cout << "Multiplica" <<endl;
  imprimirAbin(C); // En std::cout*/
 
-A = poda(A.hijoIzqdo(A.raiz()),A);
 
+
+//A = poda(A.hijoIzqdo(A.raiz()),A);
+    //A = ArbolReflejado(A);
+
+ cout << "Altura: " << altura(A);
  imprimirAbin(A); // En std::cout
  
 } 
