@@ -210,13 +210,17 @@ void podaRec(typename Abin<T>::nodo n, T elem, Abin<T>& A){
         if(A.elemento(n) == elem)
         {
             podaNodos(A.hijoIzqdo(n),A); //preguntar a kevin si es mejor tener dos funciones y asi no llamamos al nodo o comprobarlo en la funcion de podaNodos pa q no pode ese nodo
-            podaNodos(A.hijoDrcho(n),A);
+            podaNodos(A.hijoDrcho(n),A);// preguntar si los prototipos lo ponemos en  c++ o los de la especififacion y si tenemos que utilizar el constructor cual ponemos
         }else{
             podaRec(A.hijoIzqdo(n),elem,A);
             podaRec(A.hijoDrcho(n),elem,A);
         }
     }
 }
+
+//hundar un nodo //te quedas con el izquierdo a menos que te den una prioridad
+
+
 
 //como suponemos que no debemos podar el nodo que nos pide entonces si n(nodo por el cual se pueda podar) es raiz no pasaria nada, si tuvieramos que eliminar incluyendo el nodo deberiamos comprobar q no es raiz 
 template <typename T>
