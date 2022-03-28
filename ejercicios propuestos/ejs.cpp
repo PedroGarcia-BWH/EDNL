@@ -247,7 +247,89 @@ int altura(const Abin<T>& A){
     return alturaRec(A.raiz(),A);
 }
 
+template <typename T>
+int nNodosNivel(const Abin<T> A){
+    return nNodosNivelRec(A.raiz(),A);
+}
 
+template <typename T>
+int nNodosNivelRec(typename Abin<T>::nodo n, const Abin<T>& A){
+    if(n != Abin<T>::NODO_NULO){
+        return 0;
+    }else{
+        if(NodosNivel(n,profundidad(n,A),A)-1 == 2)
+        {
+            return 1 + nNodosNivelRec(A.hijoIzqdo(n),A) + nNodosNivelRec(A.hijoDrcho(n),A);    
+        }else{
+            return nNodosNivelRec(A.hijoIzqdo(n),A) + nNodosNivelRec(A.hijoDrcho(n),A); 
+        }
+    }
+}
+
+template <typename T>
+int NodosNivel(typename Abin<T>::nodo n, int profNodo, const Abin<T>& A){
+    if(n != Abin<T>::NODO_NULO){
+        return 0;
+    }else{
+        if(profundidad(n,A) == profNodo)
+        {
+            return 1;    
+        }else{
+            return NodosNivel(A.hijoIzqdo(n), profNodo,A) + NodosNivel(A.hijoDrcho(n),profNodo,A);
+        }
+    }
+}
+
+
+template <typename T>
+int profundidad (typename Abin<T>::nodo n, const Abin<T>& A){
+    if(n != Abin<T>::NODO_NULO){
+        return -1;
+    }else{
+        return 1 + profundidad(A.padre(n));
+    }
+}
+template <typename T>
+void hundir(const T& elem, Abin<T>& A){
+    hundirNodoRec(A.raiz(),elem,A);
+}
+template <typename T>
+void hundirRec(typename Abin<T>::nodo n, const T& elem, Abin<T>& A){
+    if(n != Abin<T>::NODO_NULO){
+        if(A.elemento(n) == elem){
+            hundirNodo(n,A);
+        }else{
+            hundirRec(A.hijoIzqdo(n),A);
+            hundirRec(A.hijoDrcho(n),A);
+        }
+    }
+}
+
+template <typename T>
+void hundirNodo(typename Abin<T>::nodo n, const T& elem,  Abin<T>& A){
+    if(A.hijoIzqdo(n) != Abin<T>::NODO_NULO){
+        T swap = A.elemento(n);
+        A.elemento(n) = A.elemento(A.hijoIzqdo(n));
+        A.elemento(A.hijoIzqdo(n) = swap;
+        hundirNodo(A.hijoIzqdo(n),A);
+    }else if(A.hijoIzqdo(n) != Abin<T>::NODO_NULO){
+        T swap = A.elemento(n);
+        A.elemento(n) = A.elemento(A.hijoDrcho(n));
+        A.elemento(A.hijoDrcho(n) = swap;
+        hundirNodo(A.hijoDrcho(n),A);
+    }
+    if(A.hijoIzqdo(n) == Abin<T>::NODO_NULO && A.hijoIzqdo(n) == Abin<T>::NODO_NULO && A.elemento(n) == elem ){
+        if(A.padre(n) == Abin<T>::NODO_NULO){
+            A.eliminarRaiz();
+        }
+        if(A.hijoIzqdo(A.padre(n)) == n){
+            A.eliminarHijoIzqdo(A.padre(n);
+        }
+        if(A.hijoIzqdo(A.padre(n)) == n){
+            A.eliminarHijoDrcho(A.padre(n);
+        }
+    }
+}
 using namespace std;
 typedef char tElto;
 const tElto fin = '#'; // Fin de lectura.
@@ -266,7 +348,7 @@ int main (){
  fe.close();
  cout << "\n*** Mostrar árbol binario B ***\n";
  imprimirAbin(B); // En std::cout
-
+ 
  //cout << "Nodos verdes: " << nodosVerdes(A);
  /*Abin<tElto> C = multiplica(A,10);
  cout << "Multiplica" <<endl;
@@ -286,6 +368,7 @@ int main (){
 
  cout << "Altura: " << altura(A);
  imprimirAbin(A); // En std::cout
- 
+ A.~Abin();
+  imprimirAbin(A); // En std::cout
 } 
 
