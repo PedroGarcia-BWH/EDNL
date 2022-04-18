@@ -1,16 +1,16 @@
-#ifndef APO_H
-#define APO_H
+#ifndef MIN_H
+#define MAX_H
 #include <cassert>
-template <typename T> class Apo {
+template <typename T> class minMax {
     public:
-        explicit Apo(size_t maxNodos); // constructor
+        explicit minMax(size_t maxNodos); // constructor
         void insertar(const T& e);
         void suprimir();
         const T& cima() const;
         bool vacio() const;
-        Apo(const Apo<T>& A); // ctor. de copia
-        Apo<T>& operator =(const Apo<T>& A); // asignación de apo
-        ~Apo(); // destructor
+        minMax(const minMax<T>& A); // ctor. de copia
+        minMax<T>& operator =(const minMax<T>& A); // asignación de minMax
+        ~minMax(); // destructor
     private:
         typedef size_t nodo; // índice del vector
         // entre 0 y maxNodos-1
@@ -24,32 +24,32 @@ template <typename T> class Apo {
         void hundir(nodo i);
 };
 template <typename T>
-inline Apo<T>::Apo(size_t maxNodos) :
+inline minMax<T>::minMax(size_t maxNodos) :
 nodos(new T[maxNodos]),
 maxNodos(maxNodos),
-numNodos(0) // Apo vacío.
+numNodos(0) // minMax vacío.
 {}
 template <typename T>
-inline const T& Apo<T>::cima() const
+inline const T& minMax<T>::cima() const
 {
-assert(numNodos > 0); // Apo no vacío.
+assert(numNodos > 0); // minMax no vacío.
 return nodos[0];
 }
 template <typename T>
-inline bool Apo<T>::vacio() const
+inline bool minMax<T>::vacio() const
 {
 return (numNodos == 0);
 }
 template <typename T>
-inline void Apo<T>::insertar(const T& e)
+inline void minMax<T>::insertar(const T& e)
 {
-assert(numNodos < maxNodos); // Apo no lleno.
+assert(numNodos < maxNodos); // minMax no lleno.
 nodos[numNodos] = e;
 if (++numNodos > 1)
 flotar(numNodos-1); // Reordenar.
 }
 template <typename T>
-void Apo<T>::flotar(nodo i)
+void minMax<T>::flotar(nodo i)
 {
 T e = nodos[i];
 while (i > 0 && e < nodos[padre(i)])
@@ -60,10 +60,10 @@ i = padre(i);
 nodos[i] = e;
 }
 template <typename T>
-inline void Apo<T>::suprimir()
+inline void minMax<T>::suprimir()
 {
-assert(numNodos > 0); // Apo no vacío.
-if (--numNodos > 0) // Apo no queda vacío.
+assert(numNodos > 0); // minMax no vacío.
+if (--numNodos > 0) // minMax no queda vacío.
 {
 nodos[0] = nodos[numNodos];
 if (numNodos > 1) // Quedan dos o más elementos.
@@ -71,7 +71,7 @@ hundir(0); // Reordenar.
 }
 }
 template <typename T>
-void Apo<T>::hundir(nodo i)
+void minMax<T>::hundir(nodo i)
 {
 bool fin = false;
 T e = nodos[i];
@@ -92,12 +92,12 @@ fin = true;
 nodos[i] = e; // Colocar e.
 }
 template <typename T>
-inline Apo<T>::~Apo()
+inline minMax<T>::~minMax()
 {
 delete[] nodos;
 }
 template <typename T>
-Apo<T>::Apo(const Apo<T>& A) :
+minMax<T>::minMax(const minMax<T>& A) :
 nodos(new T[A.maxNodos]),
 maxNodos(A.maxNodos),
 numNodos(A.numNodos)
@@ -107,7 +107,7 @@ for (nodo n = 0; n < numNodos; n++)
 nodos[n] = A.nodos[n];
 }
 template <typename T>
-Apo<T>& Apo<T>::operator =(const Apo<T>& A)
+minMax<T>& minMax<T>::operator =(const minMax<T>& A)
 {
 if (this != &A) // Evitar autoasignación.
 { // Destruir el vector y crear uno nuevo si es necesario.
@@ -124,4 +124,4 @@ nodos[n] = a.nodos[n];
 }
 return *this;
 }
-#endif // APO_H
+#endif // minMax_H
