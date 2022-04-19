@@ -12,7 +12,7 @@ int gradoAgen(const Agen<T>& A){
     }
 }
 template <typename T>
-int gradoAgenRec(typename Agen<T>::nodo n ,const agen<T>& A){
+int gradoAgenRec(typename Agen<T>::nodo n ,const Agen<T>& A){
     if(n == Agen<T>::NODO_NULO){
         return 0;
     }else{
@@ -31,7 +31,7 @@ int gradoAgenRec(typename Agen<T>::nodo n ,const agen<T>& A){
 }
 //funcion auxiliar para calcular el grado de un nodo solo
 template <typename T>
-int gradoNodo((typename Agen<T>::nodo n ,const agen<T>& A)){
+int gradoNodo(typename Agen<T>::nodo n ,const Agen<T>& A){
     typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
     int grado = 0;
     while (hijo != Agen<T>::NODO_NULO ){
@@ -79,7 +79,7 @@ int minHojas(typename Agen<T>::nodo n, const Agen<T>& A){
         int profAux;
         while(hijo != Agen<T>::NODO_NULO){
             profAux = minHojas(hijo,A);
-            profMin = std::min(alturaMax,alturaAux);
+            profMin = std::min(profMin, profAux);
             hijo = A.hermDrcho(hijo);
         }
 
@@ -91,7 +91,7 @@ int desequilibrioAgen (const Agen<T>& A){
     if(A.arbolVacio()) return -1; // no tiene sentido el desequilibrio en un Arbol Vacio
     return desequilibrioAgenRec(A.raiz(),A);
 }
-template <typename T>
+/*template <typename T>
 int desequilibrioAgenRec(typename Agen<T>::nodo n, const Agen<T>& A){
     if(n == Agen<T>::NODO_NULO){
         return 0;
@@ -122,35 +122,19 @@ int desequilibrioAgenRec(typename Agen<T>::nodo n, const Agen<T>& A){
 
         return desMax;
     } 
-}
+}*/
 
 //ejercicio 4
 //asumimos que el elemento esta 
-void podaAgen(int elem, Agen<int>& A){
-    podaAgenRec(A.raiz(),elem,A);
-}
 
-void podaAgenRec(typename Agen<int>::nodo n, int elem, Agen<int>& A){
-    if(n != Agen<int>::NODO_NULO){
-        if(A.elemento(n) == elem){
-            podaDesdeNodo(n,A);
-        }else{
-            typename Agen<int>::nodo hijo = A.hijoIzqdo(n);
-            while(hijo != Agen<int>::NODO_NULO){
-                podaAgenRec(hijo,elem,A);
-                hijo = A.hermDrcho(hijo);
-            }
-        }
-    }
-}
-
-void podaDesdeNodo(typename Agen<int>::nodo n, Agen<int>& A){
-    if(A.hijoIzqdo(n) == Agen<int>::NODO:NULO){
+void podaDesdeNodo(typename Agen<char>::nodo& n, Agen<char>& A){
+    if(A.hijoIzqdo(n) == Agen<char>::NODO_NULO){
+        
         if(n == A.raiz()) A.eliminarRaiz();
         if(n == A.hijoIzqdo(A.padre(n))) {
                A.eliminarHijoIzqdo(A.padre(n));
         }else{
-            typename Agen<int>::nodo hijo = A.hijoIzqdo(A.padre(n));
+            typename Agen<char>::nodo hijo = A.hijoIzqdo(A.padre(n));
 
             while(A.hermDrcho(hijo) != n){ // buscamos el nodo entre los hijos del padre
             hijo = A.hermDrcho(hijo);
@@ -160,9 +144,9 @@ void podaDesdeNodo(typename Agen<int>::nodo n, Agen<int>& A){
         }   
     }else
     {
-        typename Agen<int>::nodo hijo = A.hijoIzqdo(A.padre(n));
+        typename Agen<char>::nodo hijo = A.hijoIzqdo(n);
 
-        while(A.hermDrcho(hijo) != n)
+       while(hijo != Agen<char>::NODO_NULO)
         {
             podaDesdeNodo(hijo,A);
             hijo = A.hermDrcho(hijo);
@@ -170,16 +154,47 @@ void podaDesdeNodo(typename Agen<int>::nodo n, Agen<int>& A){
     }
 }
 
+void podaAgenRec(typename Agen<char>::nodo n, char elem, Agen<char>& A){
+    
+    if(n != Agen<char>::NODO_NULO){
+        if(A.elemento(n) == elem){
+            
+            podaDesdeNodo(n,A);
+             
+        }else{
+            typename Agen<char>::nodo hijo = A.hijoIzqdo(n);
+            while(hijo != Agen<char>::NODO_NULO){
+                podaAgenRec(hijo,elem,A);
+                hijo = A.hermDrcho(hijo);
+                
+            }
+        }
+    }
+}
+void podaAgen(char elem, Agen<char>& A){
+    podaAgenRec(A.raiz(),elem,A);
+}
+
+
+
+
+
 
 using namespace std;
 typedef char tElto;
 const tElto fin = '#'; // fin de lectura
 int main (){
  Agen<tElto> A;
- cout << "*** Lectura del árbol A ***\n";
- rellenarAgen(A, fin); // Desde std::cin
- cout << "\n*** Mostrar árbol B ***\n";
+ ifstream fe("agen.dat"); // Abrir fichero de entrada.
+ rellenarAgen(fe, A); // Desde fichero.
 
-int n = gradoAgen(A);
+ fe.close();
+
+ //int n = gradoAgen(A);
+//std::cout << n << std::endl;
+ //std::cout << profundidadNodoAgen(A, A.hijoIzqdo(A.hijoIzqdo(A.raiz())));
+
+    podaAgen('g',A);
+   
  imprimirAgen(A); // En std::cout
 } 

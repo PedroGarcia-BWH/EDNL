@@ -1,7 +1,7 @@
 #ifndef ABB_H
 #define ABB_H
 #include <cassert>
-
+#include <vector>
 template <typename T> class Abb {
     public:
         Abb();
@@ -29,7 +29,7 @@ template <typename T> class Abb {
         T borrarMin();
 };
 template <typename T>
-Abb<T>& buscarElem(const T& e){
+Abb<T>& Abb<T>::buscarElem(const T& e){
     if (r == nullptr) // Árbol vacío, e no encontrado.
     return *this;
     else if (e < r->elto) // Buscar en subárbol izqdo.

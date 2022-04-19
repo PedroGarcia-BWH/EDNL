@@ -17,7 +17,7 @@ bool esTernarioRec(typename Agen<T>::nodo n, const Agen<T>& A){
         typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
         int nHijos = 0;
         bool ternario = true;
-        while(hijos != Agen<T>::NODO_NULO){
+        while(hijo != Agen<T>::NODO_NULO){
             ternario = ternario && esTernarioRec(hijo,A);
             nHijos++;
             hijo = A.hermDrcho(hijo);
@@ -33,9 +33,17 @@ typedef char tElto;
 const tElto fin = '#'; // fin de lectura
 int main (){
  Agen<tElto> A;
- cout << "*** Lectura del árbol A ***\n";
- rellenarAgen(A, fin); // Desde std::cin
- cout << "\n*** Mostrar árbol B ***\n";
+ ifstream fe("agen.dat"); // Abrir fichero de entrada.
+ rellenarAgen(fe, A); // Desde fichero.
 
- imprimirAgen(A); // En std::cout
+ fe.close();
+
+ //int n = gradoAgen(A);
+//std::cout << n << std::endl;
+ //std::cout << profundidadNodoAgen(A, A.hijoIzqdo(A.hijoIzqdo(A.raiz())));
+
+    cout << esTernario(A);
+   
+ //imprimirAgen(A); // En std::cout
 } 
+

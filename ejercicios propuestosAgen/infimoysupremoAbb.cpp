@@ -4,12 +4,13 @@
 //suponemos que el arbol nunca esta vacio
 template <typename T>
 T infimo(T x, const Abb<T>& A){
-    return infimoRec(elem,A,A);
+    return infimoRec(x,A,A);
 }
+
 template <typename T>
-T infimoRec(T elem, const Abb<T>& R, const Abb<T>& A){
+T infimoRec(T x, const Abb<T>& R, const Abb<T>& A){
     if(x < R.elemento()){
-        return infimoRec(elem,exist, R.izqdo(),A);
+        return infimoRec(x, R.izqdo(),A);
     }else if (x == R.elemento()){
         Abb<T> aux = R.izqdo();
         if(!aux.vacio()){
@@ -19,7 +20,7 @@ T infimoRec(T elem, const Abb<T>& R, const Abb<T>& A){
         }
        
     }else{
-        return infimoRec(elem,exist, R.drcho(),A);
+        return infimoRec(x, R.drcho(),A);
     }
 }
 
@@ -35,12 +36,12 @@ T minimo(const Abb<T>& A){
 //suponemos que el arbol nunca esta vacio
 template <typename T>
 T supremo(T x, const Abb<T>& A){
-    return supremoRec(elem,A,A);
+    return supremoRec(x,A,A);
 }
 template <typename T>
-T supremoRec(T elem, const Abb<T>& R, const Abb<T>& A){
+T supremoRec(T x, const Abb<T>& R, const Abb<T>& A){
     if(x < R.elemento()){
-        return infimoRec(elem,exist, R.izqdo(),A);
+        return supremoRec(x, R.izqdo(),A);
     }else if (x == R.elemento()){
         Abb<T> aux = R.drcho();
         if(!aux.vacio()){
@@ -49,7 +50,7 @@ T supremoRec(T elem, const Abb<T>& R, const Abb<T>& A){
             return maximo(A);
         }
     }else{
-        return infimoRec(elem,exist, R.drcho(),A);
+        return supremoRec(x, R.drcho(),A);
     }
 }
 
@@ -60,4 +61,16 @@ T maximo(const Abb<T>& A){
     }else{
         return maximo(A.drcho());
     }
+}
+
+
+int main(){
+    Abb<int> A;
+    A.insertar(10);
+    A.insertar(8);
+    A.insertar(15);
+    A.insertar(7);
+    A.insertar(9);
+    std::cout << infimo(7,A) <<std::endl;
+    std::cout << supremo(7,A) <<std::endl;
 }
