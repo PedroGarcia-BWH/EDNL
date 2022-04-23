@@ -9,6 +9,7 @@ template <typename T>
 bool esTernario(const Agen<T>& A){
     return esTernarioRec(A.raiz(),A);
 }
+
 template <typename T>
 bool esTernarioRec(typename Agen<T>::nodo n, const Agen<T>& A){
     if(n == Agen<T>::NODO_NULO){
@@ -33,7 +34,7 @@ typedef char tElto;
 const tElto fin = '#'; // fin de lectura
 int main (){
  Agen<tElto> A;
- ifstream fe("agen.dat"); // Abrir fichero de entrada.
+ ifstream fe("agen2.dat"); // Abrir fichero de entrada.
  rellenarAgen(fe, A); // Desde fichero.
 
  fe.close();

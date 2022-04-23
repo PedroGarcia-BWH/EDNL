@@ -52,7 +52,7 @@ int profundidadNodoAgen(const Agen<T>& A, typename Agen<T>::nodo n){
 }
 
 //ejercicio3
-template <typename T>
+/*template <typename T>
 int alturaNodo(typename Agen<T>::nodo n, const Agen<T>& A){
     if(n == Agen<T>::NODO_NULO){
         return -1;
@@ -72,7 +72,7 @@ int alturaNodo(typename Agen<T>::nodo n, const Agen<T>& A){
 template <typename T>
 int minHojas(typename Agen<T>::nodo n, const Agen<T>& A){
     if(A.hijoIzqdo(n) == Agen<T>::NODO_NULO){
-        return profundidadNodoAgen(n,A);
+        return profundidadNodoAgen(A,n);
     }else{
         typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
         int profMin = minHojas(hijo,A);
@@ -91,7 +91,7 @@ int desequilibrioAgen (const Agen<T>& A){
     if(A.arbolVacio()) return -1; // no tiene sentido el desequilibrio en un Arbol Vacio
     return desequilibrioAgenRec(A.raiz(),A);
 }
-/*template <typename T>
+template <typename T>
 int desequilibrioAgenRec(typename Agen<T>::nodo n, const Agen<T>& A){
     if(n == Agen<T>::NODO_NULO){
         return 0;
@@ -110,11 +110,15 @@ int desequilibrioAgenRec(typename Agen<T>::nodo n, const Agen<T>& A){
         }
 
         int desMax = alturaMaxNivel - profMinNivel;
+        std::cout  << alturaMaxNivel << " " << A.elemento(n)<< std::endl;
+        std::cout  << profMinNivel << " " << A.elemento(n)<< std::endl;
+
+        std::cout  << desMax << " " << A.elemento(n)<< std::endl;
         int desAux;
 
-
+        hijo = A.hijoIzqdo(n);
         while(hijo != Agen<T>::NODO_NULO){
-            desaux = desequilibrioAgenRec(hijo,)
+            desAux = desequilibrioAgenRec(hijo,A);
             desMax = std::max(desMax,desAux);
         
             hijo = A.hermDrcho(hijo);
@@ -177,8 +181,137 @@ void podaAgen(char elem, Agen<char>& A){
 
 
 
+/*template <typename T>
+int desequilibrioAgen(Agen<T>& A){
+    if(A.arbolVacio()){
+        return 0;
+    }
+    return desequilibrioAgen_Rec(A.raiz(), A);
+}
+
+template <typename T>
+int desequilibrioAgen_Rec(typename Agen<T>::nodo n, Agen<T>& A){
+    if(A.hijoIzqdo(n) == Agen<T>::NODO_NULO){
+        return 0;
+    }
+    else{
+        int diferencia = desequilibrioNivel(A.hijoIzqdo(n), A);
+        typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
+        while (hijo != Agen<T>::NODO_NULO){
+            diferencia = std::max(diferencia, desequilibrioAgen_Rec(hijo, A));
+            hijo = A.hermDrcho(hijo);
+        }
+        return diferencia;
+    }
+}
+
+template<typename T>
+int desequilibrioNivel(typename Agen<T>::nodo n, Agen<T>& A){
+    int minAlt, maxAlt = alturaNodo(n, A);
+    minAlt = alturaNodo(n, A);
+    if(A.hermDrcho(n) != Agen<T>::NODO_NULO){
+        typename Agen<T>::nodo herm = A.hermDrcho(n);
+        while(herm != Agen<T>::NODO_NULO){
+            if(minAlt > alturaNodo(herm, A)) minAlt = alturaNodo(herm, A);
+            if(maxAlt < alturaNodo(herm, A)) maxAlt = alturaNodo(herm, A);
+            herm = A.hermDrcho(herm);
+        }
+    }
+    return maxAlt - minAlt;
+}
+
+template <typename T>
+int alturaNodo(typename Agen<T>::nodo n, Agen<T>& A){
+    if(n == Agen<T>::NODO_NULO){
+        return 0;
+    }
+    else if(A.hijoIzqdo(n) == Agen<T>::NODO_NULO){
+        return 0;
+    }
+    else{
+        int altura = 0;
+        typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
+        while (hijo != Agen<T>::NODO_NULO){
+            altura = std::max(altura, alturaNodo(hijo, A));
+            hijo = A.hermDrcho(hijo);
+        }
+        return 1 + altura;
+    }
+}*/
 
 
+
+template <typename T>
+int desequilibrioAgen(Agen<T>& A){
+    if(A.arbolVacio()){
+        return 0;
+    }else{
+        return desequilibrioAgen_Rec(A.raiz(),A);
+    }
+}
+
+template <typename T>
+int desequilibrioAgen_Rec(typename Agen<T>::nodo n,Agen<T>& A){
+    if(n == Agen<T>::NODO_NULO){
+        return 0;
+    }else{
+        int desequilibrio = calcularDesequilibrio(n,A);
+        if(A.hijoIzqdo(n) != Agen<T>::NODO_NULO){
+            typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
+            while(hijo != Agen<T>::NODO_NULO){
+                desequilibrio = std::max(desequilibrio,desequilibrioAgen_Rec(hijo,A));
+                hijo = A.hermDrcho(hijo);
+            }
+
+        }
+
+        return desequilibrio;
+    }
+
+}
+
+template <typename T>
+int calcularDesequilibrio(typename Agen<T>::nodo n,Agen<T>& A){
+
+    if(A.hijoIzqdo(n) == Agen<T>::NODO_NULO){
+        return 0;
+    }else{
+        typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
+        int altMax = alturaNodo(hijo, A);
+        int altMin = alturaNodo(hijo, A);
+        if(A.hermDrcho(hijo)!=Agen<T>::NODO_NULO){
+            typename Agen<T>::nodo hermDr = A.hermDrcho(hijo);
+            while(hermDr != Agen<T>::NODO_NULO){
+                altMax = std::max(altMax, alturaNodo(hermDr,A));
+                altMin = std::min(altMin, alturaNodo(hermDr,A));
+                hermDr = A.hermDrcho(hermDr);
+            }
+        }
+
+        return altMax - altMin;
+        
+    }
+
+}
+
+
+template <typename T>
+int alturaNodo(typename Agen<T>::nodo n, Agen<T>& A){
+    if(n==Agen<T>::NODO_NULO){
+        return 0;
+    }else if(A.hijoIzqdo(n)==Agen<T>::NODO_NULO){
+        return 0;
+    }else{
+        int aux = 0;
+        typename Agen<T>::nodo hijo = A.hijoIzqdo(n);
+        while(hijo != Agen<T>::NODO_NULO){
+            aux = std::max(aux,alturaNodo(hijo,A));
+            hijo = A.hermDrcho(hijo);
+        }
+        return 1 + aux;
+    }
+
+}
 
 using namespace std;
 typedef char tElto;
@@ -194,7 +327,9 @@ int main (){
 //std::cout << n << std::endl;
  //std::cout << profundidadNodoAgen(A, A.hijoIzqdo(A.hijoIzqdo(A.raiz())));
 
-    podaAgen('g',A);
-   
- imprimirAgen(A); // En std::cout
+    //podaAgen('g',A);
+   //std::cout << alturaNodo(A.raiz(),A);
+   //std::cout << minHojas(A.hijoIzqdo(A.hijoIzqdo(A.raiz())), A);
+   std::cout << desequilibrioAgen(A);
+ //imprimirAgen(A); // En std::cout
 } 
