@@ -4,73 +4,97 @@
 //suponemos que el arbol nunca esta vacio
 template <typename T>
 T infimo(T x, const Abb<T>& A){
-    return infimoRec(x,A,A);
+    T aux = A.elemento();
+    infimoRec(aux, x,A);
+
+    return aux;
 }
 
 template <typename T>
-T infimoRec(T x, const Abb<T>& R, const Abb<T>& A){
-    if(x < R.elemento()){
-        return infimoRec(x, R.izqdo(),A);
-    }else if (x == R.elemento()){
-        Abb<T> aux = R.izqdo();
-        if(!aux.vacio()){
-            return aux.elemento();
-        }else{
-            return minimo(A);
+void infimoRec(T& aux,const T& x, const Abb<T>& A){
+
+    if(!A.vacio()){
+
+        if(x==A.elemento()){
+
+            aux = A.elemento();
+
         }
-       
-    }else{
-        return infimoRec(x, R.drcho(),A);
-    }
-}
 
-template <typename T>
-T minimo(const Abb<T>& A){
-    if(A.izqdo().vacio()){
-        return A.elemento();
-    }else{
-        return minimo(A.izqdo());
+        if(x<A.elemento()){
+            if(A.izqdo().vacio()){
+                aux = A.elemento();
+            }else{
+                infimoRec(aux,x,A.izqdo());
+            }
+            
+        }
+
+        if(x>A.elemento()){
+            if(x==aux){
+                aux=A.elemento();
+            }else{
+                aux = std::max(aux,A.elemento());
+            }           
+            infimoRec(aux,x,A.drcho());
+        }
+
     }
+
 }
 
 //suponemos que el arbol nunca esta vacio
 template <typename T>
 T supremo(T x, const Abb<T>& A){
-    return supremoRec(x,A,A);
-}
-template <typename T>
-T supremoRec(T x, const Abb<T>& R, const Abb<T>& A){
-    if(x < R.elemento()){
-        return supremoRec(x, R.izqdo(),A);
-    }else if (x == R.elemento()){
-        Abb<T> aux = R.drcho();
-        if(!aux.vacio()){
-            return aux.elemento();
-        }else{
-            return maximo(A);
-        }
-    }else{
-        return supremoRec(x, R.drcho(),A);
-    }
+    T aux = A.elemento();
+    supremoRec(aux, x,A);
+
+    return aux;
 }
 
 template <typename T>
-T maximo(const Abb<T>& A){
-    if(A.drcho().vacio()){
-        return A.elemento();
-    }else{
-        return maximo(A.drcho());
+void supremoRec(T& aux,const T& x, const Abb<T>& A){
+
+    if(!A.vacio()){
+
+        if(x==A.elemento()){
+
+            aux = A.elemento();
+
+        }
+
+        if(x<A.elemento()){
+            aux = std::max(aux,A.elemento());
+            supremoRec(aux,x,A.drcho());
+          
+            
+        }
+
+        if(x>A.elemento()){
+            if(A.izqdo().vacio()){
+                aux = A.elemento();
+            }else{
+                supremoRec(aux,x,A.izqdo());
+            }
+        }
+
     }
+
 }
 
 
 int main(){
     Abb<int> A;
-    A.insertar(10);
-    A.insertar(8);
-    A.insertar(15);
-    A.insertar(7);
     A.insertar(9);
-    std::cout << infimo(7,A) <<std::endl;
-    std::cout << supremo(7,A) <<std::endl;
+    A.insertar(7);
+    A.insertar(4);
+    A.insertar(3);
+    A.insertar(5);
+    A.insertar(8);
+    A.insertar(11);
+     A.insertar(10);
+    A.insertar(12);
+    A.insertar(17);
+    std::cout << infimo(14,A) <<std::endl;
+     std::cout << infimo(2,A) <<std::endl;
 }

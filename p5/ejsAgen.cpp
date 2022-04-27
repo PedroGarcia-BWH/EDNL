@@ -29,6 +29,39 @@ bool esTernarioRec(typename Agen<T>::nodo n, const Agen<T>& A){
     }
 }
 
+typedef struct {
+    char color; // N, B, Sin color S
+    size_t inicio[2], fin[2];
+}bc;
+
+//preguntar como se de cuanto es el tamaño de la matriz
+char** representarFigura(size_t k, const Agen<bc>& A){
+    char m[k][k]; // char m[k][k] = altura(A);
+    representarFiguraRec(A.raiz(), m, A );
+    return m;
+
+}
+
+void representarFiguraRec(typename Agen<bc>::nodo n, char **m, const Agen<bc>& A){
+    if(A.hijoIzqdo(n) == Agen<bc>::NODO_NULO){
+        rellenarMatriz(A.elemento(n),m);
+    }else{
+        typename Agen<bc>::nodo hijo = A.hijoIzqdo(n);
+        while(hijo != Agen<bc>::NODO_NULO){
+            representarFiguraRec(hijo,m,A);
+            hijo = A.hermDrcho(n);
+        }
+    }
+}
+
+void rellenarMatriz(bc elem, char **m){
+    for(size_t i = elem.inicio[0]; i< elem.fin[0]; i++){
+        for(size_t j = elem.inicio[1]; j< elem.fin[1]; j++){
+            m[i][j] = elem.color;
+        }
+    }
+}
+
 using namespace std;
 typedef char tElto;
 const tElto fin = '#'; // fin de lectura

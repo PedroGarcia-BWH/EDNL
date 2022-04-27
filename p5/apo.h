@@ -51,13 +51,13 @@ flotar(numNodos-1); // Reordenar.
 template <typename T>
 void Apo<T>::flotar(nodo i)
 {
-T e = nodos[i];
-while (i > 0 && e < nodos[padre(i)])
-{
-nodos[i] = nodos[padre(i)];
-i = padre(i);
-}
-nodos[i] = e;
+    T e = nodos[i];
+    while (i > 0 && e < nodos[padre(i)])
+    {
+    nodos[i] = nodos[padre(i)];
+    i = padre(i);
+    }
+    nodos[i] = e;
 }
 template <typename T>
 inline void Apo<T>::suprimir()
@@ -73,23 +73,23 @@ hundir(0); // Reordenar.
 template <typename T>
 void Apo<T>::hundir(nodo i)
 {
-bool fin = false;
-T e = nodos[i];
-while (hIzq(i) < numNodos && !fin) // Hundir e.
-{
-nodo hMin; // Hijo menor del nodo i.
-if (hDer(i) < numNodos && nodos[hDer(i)] < nodos[hIzq(i)])
-hMin = hDer(i);
-else
-hMin = hIzq(i);
-if (nodos[hMin] < e) { // Subir el hijo menor.
-nodos[i] = nodos[hMin];
-i = hMin;
-}
-else // e <= nodos[hMin]
-fin = true;
-}
-nodos[i] = e; // Colocar e.
+    bool fin = false;
+    T e = nodos[i];
+    while (hIzq(i) < numNodos && !fin) // Hundir e.
+    {
+        nodo hMin; // Hijo menor del nodo i.
+        if (hDer(i) < numNodos && nodos[hDer(i)] < nodos[hIzq(i)])
+        hMin = hDer(i);
+        else
+        hMin = hIzq(i);
+        if (nodos[hMin] < e) { // Subir el hijo menor.
+        nodos[i] = nodos[hMin];
+        i = hMin;
+        }
+        else // e <= nodos[hMin]
+        fin = true;
+    }
+    nodos[i] = e; // Colocar e.
 }
 template <typename T>
 inline Apo<T>::~Apo()
