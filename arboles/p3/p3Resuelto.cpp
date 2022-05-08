@@ -181,6 +181,7 @@ void podaAgen(char elem, Agen<char>& A){
 
 
 
+
 /*template <typename T>
 int desequilibrioAgen(Agen<T>& A){
     if(A.arbolVacio()){

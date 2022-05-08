@@ -5,7 +5,7 @@
 //ejercicio 1
 
 template <typename T>
-const Agen<T>& reflejado(const Agen<T>& A){
+Agen<T> reflejado(const Agen<T>& A){
     Agen<T> B;
     if(!A.arbolVacio()){
         B.insertarRaiz(A.elemento(A.raiz()));
@@ -57,5 +57,5 @@ int main (){
    //std::cout << minHojas(A.hijoIzqdo(A.hijoIzqdo(A.raiz())), A);
     //std::cout << xNodos(3,A) << std::endl;
     B= reflejado(A);
- imprimirAgen(A); // En std::cout
+ imprimirAgen(B); // En std::cout
 } 
