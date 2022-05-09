@@ -129,13 +129,6 @@ vector<tCoste> Dijkstra(const GrafoP<tCoste>& G,
 }
 
 
-
-
-
-
-
-
-
 template <typename tCoste>
 vector<tCoste> DijkstraInv(const GrafoP<tCoste>& G,
                         typename GrafoP<tCoste>::vertice destino,
