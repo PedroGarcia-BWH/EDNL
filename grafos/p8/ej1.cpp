@@ -45,7 +45,13 @@ Particion Tombuctu(const vector<coordenadas>& Ciudades, const Grafo& G, matriz<t
 Particion Tombuctu2(const vector<coordenadas>& Ciudades, const Grafo& G){
     GrafoP<tCoste> costes(Cuidades.size());
     matriz<bool> conexiones = Warshall(G);
-    
+
+     for(int i =0; i< Cuidades.size(); i++){
+        for(int j=0; j< Cuidades.size();j++){
+            costes[i][j] = distancia(Cuidades[i], Ciudades[j]);
+        }
+    }
+
     Particion islas(Cuidades.size());
 
     for(int i =0; i< Cuidades.size(); i++){
@@ -56,6 +62,11 @@ Particion Tombuctu2(const vector<coordenadas>& Ciudades, const Grafo& G){
     //utilizar kruskal pero añadiendo la restriccion de que no puede ser de la misma particion
     
     return islas;
+}
+
+int nParticiones(const Particion& p){
+    int max = 0;
+    
 }
 
 
