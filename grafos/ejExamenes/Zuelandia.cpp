@@ -3,20 +3,32 @@
 #include <map>
 using namespace std;
 
-typedef typename GrafoP<km>::vertice vertice;
+/*
+ENUNCIADO
+La capital de Zuelandia esta alcanzando niveles de toxicidad muy elevados, por ello se ha
+decretado el cierre a la ciudad com paso de transito hacia otrs ciudades.(Para ir de una 
+ciudad a otra no se podra pasar por la capital, pero si se podra ir si es residente de la mimsma
+empleandolo como ciudad destino u origen).
+
+Implemente un subprograma que dada la capital y un grafo ponderado con los km de las 
+carreteras existentes entre las ciudades del pais, nos devuelva los caminos resultantes de nuestra nueva politica 
+sin pasar por la capital.
+
+*/
 typedef double km;
-map<vertice,vector<vertice>> sinCapital(vertice capital, GrafoP<km> G){
-    vector<vertice> camino(G.numVert());
-    map<vertice,vector<vertice>> caminos;
-    vector<km> coste(G.numVert());
-    for(vertice i = 0; i < G.numVert(); i++){
-        coste = DijkstraSinCapital(G, i, camino, capital);
-        caminos[i] = camino;
-    }
+typedef typename GrafoP<km>::vertice vertice;
 
-    return caminos;
+
+
+
+template <typename tCoste> tCoste suma(tCoste x, tCoste y)
+{
+   const tCoste INFINITO = GrafoP<tCoste>::INFINITO;
+   if (x == INFINITO || y == INFINITO)
+      return INFINITO;
+   else
+      return x + y;
 }
-
 
 template <typename tCoste>
 vector<tCoste> DijkstraSinCapital(const GrafoP<tCoste>& G,
@@ -68,3 +80,19 @@ vector<tCoste> DijkstraSinCapital(const GrafoP<tCoste>& G,
    }
    return D;
 }
+
+
+//funcion principal del ejercicio
+map<vertice,vector<vertice>> sinCapital(vertice capital, GrafoP<km> G){
+    vector<vertice> camino(G.numVert());
+    map<vertice,vector<vertice>> caminos;
+    vector<km> coste(G.numVert());
+    for(vertice i = 0; i < G.numVert(); i++){
+        coste = DijkstraSinCapital(G, i, camino, capital);
+        caminos[i] = camino;
+    }
+
+    return caminos;
+}
+
+

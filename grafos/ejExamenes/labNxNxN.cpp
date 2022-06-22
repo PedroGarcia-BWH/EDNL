@@ -1,11 +1,14 @@
-#include <iostream>
-#include "../algoritmos/grafoPMC.h"
 #include "../algoritmos/alggrafoPMC.h"
+#include "../algoritmos/grafoPMC.h"
+#include "../algoritmos/grafoMA.h"
+#include <cmath>
+#include <iostream>
+
 
 using namespace std;
 struct casilla {
-    size_t i,j;
-    casilla(size_t i, size_t j): i(i), j(j) {}
+    size_t i,j,z;
+    casilla(size_t i, size_t j,size_t z): i(i), j(j) z(z){}
 };
 
 //template <typename tCoste>
@@ -21,20 +24,20 @@ struct pared
 };
 
 typename GrafoP<size_t>::vertice casilla_to_vertice(casilla c, size_t N){
-    return c.i*N + c.j;
+    return c.i*N + c.j*N + c.z*N*N;
 }
 
 casilla vertice_to_casilla(typename GrafoP<size_t>::vertice v, size_t N){
-    return casilla(v%N,v/N);
+    return casilla(v%N,(v/N)%N, v/N/N);
 }
 
 bool esAdyacente(casilla c1, casilla c2){
-    return (std::abs((double)c1.i-c2.i) + std::abs((double)c1.j - c2.j)) == 1;
+    return (std::abs((double)c1.i-c2.i) + std::abs((double)c1.j - c2.j) + std::abs((double)c1.z - c2.z)) == 1;
 }
 
 template <typename tCoste>
 recorrido laberinto(size_t N, vector<pared> paredes, casilla entrada, casilla salida){
-    GrafoP<tCoste> G(N*N);
+    GrafoP<tCoste> G(N*N*N);
 
     for( typename GrafoP<tCoste>::vertice i=0; i<N*N; i++){
        for(typename GrafoP<tCoste>::vertice j=0; j<N*N; j++){
@@ -68,21 +71,4 @@ recorrido laberinto(size_t N, vector<pared> paredes, casilla entrada, casilla sa
 
     recorrido result(camino, v[destino]);
     return result;
-}
-
-
-//comprobacion
-int main(){
-    size_t N = 3;
-    casilla origen(0,0);
-    vector<pared> v; 
-    casilla salida(2,2);
-    recorrido r = laberinto<int>(N,v, origen, salida); 
-
-    cout << "Camino " <<endl;
-    for(auto it = r.camino.begin(); it != r.camino.end(); it++){
-        cout << it->i << " "<< it->j <<endl;
-    }
-
-     cout << "Lon:  " << r.longitud <<endl;
 }
